@@ -32,7 +32,7 @@ export default {
     return {
       titleList: [
         { id: "1", value: "重症感染" },
-        // { id: "2", value: "重症休克" }
+        { id: "2", value: "重症休克" }
       ]
     };
   },
