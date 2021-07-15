@@ -62,7 +62,8 @@
           <i class="iconfont icon-zhongzhengkeshi" style="color:#01763A"></i>
         </template>
       </van-cell>
-      <van-cell
+      <!-- 关闭重症休克2(共2) -->
+      <!-- <van-cell
         title="重症休克辅助决策"
         icon="location-o"
         size="large"
@@ -71,7 +72,7 @@
         <template #icon>
           <i class="iconfont icon-weibiaoti511" style="color:#55A55A"></i>
         </template>
-      </van-cell>
+      </van-cell> -->
     </van-popup>
 
     <router-view></router-view>

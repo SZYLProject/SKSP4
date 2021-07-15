@@ -66,3 +66,9 @@ export const getNumberICU = (data) => ajax({
     method: 'POST',
     data
 })
+export const getPatientMessage = (data) => ajax({
+    url: 'v1/getPatientMessage',
+    method: 'POST',
+    data
+})
+

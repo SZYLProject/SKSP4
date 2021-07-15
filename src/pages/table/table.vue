@@ -36,13 +36,13 @@ export default {
     };
   },
   mounted() {
-    const id = sessionStorage.getItem("systemTitle");
+    const id = sessionStorage.getItem("systemTitle") || '1';
     switch (id) {
       case "1":
-        this.patientTableSelectSP();
+        this.patientTableSelectSP();// 重症感染
         break;
       case "2":
-        this.patientTableSelectSK();
+        this.patientTableSelectSK(); // 重症休克
         break;
       default:
         break;

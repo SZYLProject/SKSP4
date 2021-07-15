@@ -31,8 +31,9 @@ export default {
   data() {
     return {
       titleList: [
-        { id: "1", value: "重症感染" },
-        { id: "2", value: "重症休克" }
+        { id: "1", value: "重症感染" }
+        // 关闭重症休克1(共2)
+        // { id: "2", value: "重症休克" }
       ]
     };
   },
