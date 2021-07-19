@@ -1,4 +1,5 @@
 <template>
+<!-- 修改完详情页信息后跳转到当前页面 -->
   <div id="container">
     <van-tabs
       v-model="active"

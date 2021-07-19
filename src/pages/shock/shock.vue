@@ -96,7 +96,7 @@ export default {
       isShowOverlay: false,
       show: false,
       title: `重症${
-        sessionStorage.getItem("systemTitle") === "1" ? "感染" : "休克"
+        (sessionStorage.getItem("systemTitle") || "1") === "1" ? "感染" : "休克"
       }辅助决策系统`
     };
   },
@@ -135,6 +135,7 @@ export default {
     },
     //去往重症休克
     goShock() {
+      debugger;
       this.title = "重症休克辅助决策系统";
       sessionStorage.setItem("systemTitle", "2");
       this.show = false;

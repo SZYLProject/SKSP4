@@ -7,7 +7,7 @@ import {
     INFECTIONPAIENTINFO
 } from './mutation-type'
 export default {
-    // 获取患者休克信息
+    // 获取患者休克信息：修改infectionPaient为diseaseInfoSelectSK即可，当前无数据
     async getPaientInfoActions({commit}) {
         let result = await infectionPaient()
         if (result.status == 0) {
@@ -15,6 +15,7 @@ export default {
             console.log(result.data)
         }
     },
+    // 获取患者感染信息
     async getInfectionPaientInfoActions({
         commit
     }) {

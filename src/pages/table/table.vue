@@ -67,7 +67,7 @@ export default {
       console.log(item);
       const data = JSON.stringify(item)
       sessionStorage.setItem("tablePerpionInfo", data);
-      this.$router.push({ path: "/shock/InfectionEntry" });
+      this.$router.push({ path: "/shock/InfectionEntry" }); // 前往重症感染详情
     }
   }
 };

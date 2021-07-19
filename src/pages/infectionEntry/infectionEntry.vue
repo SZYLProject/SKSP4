@@ -195,10 +195,11 @@
 <script>
 import { mapState } from "vuex";
 import { Toast } from "vant";
+import { CLEARINFECTIONPAIENTINFO } from "../../vuex/mutation-type";
 export default {
   data() {
     return {
-      tablePerpionInfo: JSON.parse(sessionStorage.getItem("tablePerpionInfo")),
+      tablePerpionInfo: {},
       symptom: "", //症状体征
       assess: [], //治疗评估
       antiInfective: "", //体征
@@ -221,7 +222,112 @@ export default {
       diseaseInfoModel: []
     };
   },
+  computed: {
+    ...mapState({
+      infectionInfo: state => state.infectionInfo,
+      infectionEntry: state => state.infectionEntry,
+      infectionChildren: state => state.infectionChildren
+    })
+  },
+  mounted() {
+    this.start();
+
+    // this.patientTableSelectSP();
+  },
+  destroyed() {
+    this.$store.commit(CLEARINFECTIONPAIENTINFO);
+  },
+
+  watch: {
+    infectionEntry: {
+      handler(value) {
+        this.$nextTick(() => {
+          this.changeData(this.infectionEntry, 0, "symptom");
+          this.changeData(this.infectionEntry, 1, "assess");
+          this.changeData(this.infectionEntry, 2, "antiInfective");
+          this.changeNull(this.infectionEntry, 4);
+          let checkboxGroup = [];
+          let antiInfectiveBox = [];
+          let checkedBox = [];
+          let box = [];
+          let culture = [];
+          let select = [];
+          value[0].children[3].children.forEach(item => {
+            if (item.presentation_type === "3") {
+              select.push(item);
+            } else if (item.presentation_type === "2") {
+              console.log(1);
+            }
+            if (item) {
+              item.children.forEach(details => {
+                if (details.disease_info_title_value === "y") {
+                  checkboxGroup.push(details.id);
+                }
+              });
+            }
+          });
+          value[0].children[1].children.forEach(item => {
+            if (item.disease_info_title_value === "y") {
+              box.push(item.id);
+            }
+          });
+          value[0].children[2].children.forEach(item => {
+            if (item.disease_info_title_value === "y") {
+              antiInfectiveBox.push(item.id);
+            }
+          });
+          value[0].children[4].children.forEach(item => {
+            if (item.disease_info_title_value === "y") {
+              checkedBox.push(item.id);
+            }
+          });
+          value[0].children[5].children.forEach(item => {
+            if (item.disease_info_title_value === "y") {
+              culture.push(item.id);
+            }
+          });
+          this.checkboxGroup = checkboxGroup;
+          this.antiInfectiveBox = antiInfectiveBox;
+          this.checkedBox = checkedBox;
+          this.box = box;
+          this.culture = culture;
+        });
+      },
+      deep: true
+    }
+  },
   methods: {
+    start() {
+      let id = this.getUrlKey("patientId");
+      if (id) {
+        this.patientTableSelectSP(id);
+      } else {
+        this.tablePerpionInfo = JSON.parse(
+          sessionStorage.getItem("tablePerpionInfo")
+        );
+        this.$store.dispatch("getInfectionPaientInfoActions");
+      }
+    },
+    async patientTableSelectSP(id) {
+      const data = {
+        patient_id: String(id)
+      };
+      await this.$API.getPatientMessage(data).then(item => {
+        sessionStorage.setItem("tablePerpionInfo", JSON.stringify(item));
+        this.$store.dispatch("getInfectionPaientInfoActions");
+        this.tablePerpionInfo = item;
+      });
+    },
+    // 获取路由的最后参数
+    getUrlKey(name) {
+      return (
+        decodeURIComponent(
+          (new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(
+            location.href
+          ) || [, ""])[1].replace(/\+/g, "%20")
+        ) || null
+      );
+    },
     async submit() {
       let diseaseInfoModel = [];
       this.infectionEntry[0].children[0].children.forEach(item => {
@@ -332,74 +438,6 @@ export default {
           item.disease_info_title_value = "";
         }
       });
-    }
-  },
-  computed: {
-    ...mapState({
-      infectionInfo: state => state.infectionInfo,
-      infectionEntry: state => state.infectionEntry,
-      infectionChildren: state => state.infectionChildren
-    })
-  },
-  mounted() {
-    this.$store.dispatch("getInfectionPaientInfoActions");
-  },
-  watch: {
-    infectionEntry: {
-      handler(value) {
-        this.$nextTick(() => {
-          this.changeData(this.infectionEntry, 0, "symptom");
-          this.changeData(this.infectionEntry, 1, "assess");
-          this.changeData(this.infectionEntry, 2, "antiInfective");
-          this.changeNull(this.infectionEntry, 4);
-          let checkboxGroup = [];
-          let antiInfectiveBox = [];
-          let checkedBox = [];
-          let box = [];
-          let culture = [];
-          let select = [];
-          value[0].children[3].children.forEach(item => {
-            if (item.presentation_type === "3") {
-              select.push(item);
-            } else if (item.presentation_type === "2") {
-              console.log(1);
-            }
-            if (item) {
-              item.children.forEach(details => {
-                if (details.disease_info_title_value === "y") {
-                  checkboxGroup.push(details.id);
-                }
-              });
-            }
-          });
-          value[0].children[1].children.forEach(item => {
-            if (item.disease_info_title_value === "y") {
-              box.push(item.id);
-            }
-          });
-          value[0].children[2].children.forEach(item => {
-            if (item.disease_info_title_value === "y") {
-              antiInfectiveBox.push(item.id);
-            }
-          });
-          value[0].children[4].children.forEach(item => {
-            if (item.disease_info_title_value === "y") {
-              checkedBox.push(item.id);
-            }
-          });
-          value[0].children[5].children.forEach(item => {
-            if (item.disease_info_title_value === "y") {
-              culture.push(item.id);
-            }
-          });
-          this.checkboxGroup = checkboxGroup;
-          this.antiInfectiveBox = antiInfectiveBox;
-          this.checkedBox = checkedBox;
-          this.box = box;
-          this.culture = culture;
-        });
-      },
-      deep: true
     }
   }
 };

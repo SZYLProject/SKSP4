@@ -1,2 +1,4 @@
-export const PAIENTINFO = 'PAIENTINFO'   //获取患者信息
-export const INFECTIONPAIENTINFO = 'infectionpaientinfo'
+export const PAIENTINFO = "PAIENTINFO"; //获取患者信息
+export const INFECTIONPAIENTINFO = "infectionpaientinfo";
+export const CLRATRPAIENTINFO = "CLRATRPAIENTINFO";
+export const CLEARINFECTIONPAIENTINFO = "CLEARINFECTIONPAIENTINFO";
