@@ -135,7 +135,6 @@ export default {
     },
     //去往重症休克
     goShock() {
-      debugger;
       this.title = "重症休克辅助决策系统";
       sessionStorage.setItem("systemTitle", "2");
       this.show = false;

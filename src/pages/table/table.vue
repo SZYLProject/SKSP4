@@ -36,10 +36,10 @@ export default {
     };
   },
   mounted() {
-    const id = sessionStorage.getItem("systemTitle") || '1';
+    const id = sessionStorage.getItem("systemTitle") || "1";
     switch (id) {
       case "1":
-        this.patientTableSelectSP();// 重症感染
+        this.patientTableSelectSP(); // 重症感染
         break;
       case "2":
         this.patientTableSelectSK(); // 重症休克
@@ -54,7 +54,10 @@ export default {
       let result = await this.$API.patientTableSelectSP(data);
       if (result.status === "0") {
         // this.users = [].concat(result.data);
-        this.users = Object.assign([], result.data);
+        this.users = Object.assign(
+          [],
+          result.data.filter(d => d)
+        );
       }
     },
     patientTableSelectSK() {
@@ -65,7 +68,7 @@ export default {
     },
     toEntry(item) {
       console.log(item);
-      const data = JSON.stringify(item)
+      const data = JSON.stringify(item);
       sessionStorage.setItem("tablePerpionInfo", data);
       this.$router.push({ path: "/shock/InfectionEntry" }); // 前往重症感染详情
     }
