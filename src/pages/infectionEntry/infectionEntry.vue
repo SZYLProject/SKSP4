@@ -172,10 +172,13 @@
             native-type="submit"
             class="reSubmit"
             size="normal"
+            @click="rebmit"
+            :loading="rebmitTrue"
           >
             重置
           </van-button>
           <van-button
+            :loading="submitTrue"
             round
             style="width:46%"
             type="info"
@@ -193,12 +196,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { Toast } from "vant";
 import { CLEARINFECTIONPAIENTINFO } from "../../vuex/mutation-type";
 export default {
   data() {
     return {
+      submitTrue: false,
+      rebmitTrue: false,
       tablePerpionInfo: {},
       symptom: "", //症状体征
       assess: [], //治疗评估
@@ -241,6 +246,7 @@ export default {
   watch: {
     infectionEntry: {
       handler(value) {
+        this.rebmitTrue = false;
         this.$nextTick(() => {
           this.changeData(this.infectionEntry, 0, "symptom");
           this.changeData(this.infectionEntry, 1, "assess");
@@ -297,6 +303,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      CLEARINFECTIONPAIENTINFO: "disease360/CLEARINFECTIONPAIENTINFO"
+    }),
     start() {
       let id = this.getUrlKey("patientId");
       if (id) {
@@ -329,6 +338,7 @@ export default {
       );
     },
     async submit() {
+      this.submitTrue = true;
       let diseaseInfoModel = [];
       this.infectionEntry[0].children[0].children.forEach(item => {
         diseaseInfoModel.push({
@@ -404,11 +414,17 @@ export default {
       this.diseaseInfoModel = diseaseInfoModel;
       let result = await this.$API.infectionUpdata(this.diseaseInfoModel);
       if (result.status === "0") {
+        this.submitTrue = false;
         Toast("提交成功");
         if (this.$route.path != "/shock/infectionResult") {
           this.$router.push("/shock/infectionResult");
         }
       }
+    },
+    rebmit() {
+      // this.CLEARINFECTIONPAIENTINFO()
+      this.rebmitTrue = true;
+      this.$store.dispatch("getInfectionPaientInfoActions");
     },
     handpct(index) {
       this.$refs.pctboxes[index].toggle();
