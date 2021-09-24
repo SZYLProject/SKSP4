@@ -322,6 +322,10 @@ export default {
         patient_id: String(id)
       };
       await this.$API.getPatientMessage(data).then(item => {
+        // if (item.patient_id === null || item.patient_id === undefined) {
+        //   Toast.fail("当前患者已出院，请选择在院患者!");
+        //   return;
+        // }
         sessionStorage.setItem("tablePerpionInfo", JSON.stringify(item));
         this.$store.dispatch("getInfectionPaientInfoActions");
         this.tablePerpionInfo = item;
