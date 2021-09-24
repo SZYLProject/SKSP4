@@ -14,7 +14,9 @@ if (process.env.NODE_ENV === 'development') {
         // 给郭飞打包修改此线上地址
         // baseURL: 'http://152.136.182.96:5030/' // 打包地址
         // baseURL: 'http://172.16.116.75:5032/' //本地打包地址
-        baseURL: 'http://10.160.28.153:5031' // 协和服务器
+        // baseURL: 'http://10.160.28.153:5031' // 协和服务器
+        baseURL: 'http://localhost:5031' // 协和服务器
+
 
 
     })

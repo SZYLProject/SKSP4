@@ -190,6 +190,15 @@
             提交
           </van-button>
         </div>
+        <div
+          style="display:flex ;display: flex;
+    justify-content: center;
+    margin-top: 40px;"
+        >
+          <div>
+            重症基础诊疗临床辅助系统仅提供辅助决策信息，诊疗意见以临床意见为准。当前为试用版，详细功能以最终注册信息为准。
+          </div>
+        </div>
       </van-form>
     </div>
   </div>
